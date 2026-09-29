@@ -20,7 +20,7 @@ function App() {
   const [open, setOpen] = useState(true);
   const [name, setName] = useState("");
   return (
-    <div className="h-screen relative bg-[linear-gradient(180deg,#22473E_0%,#1E3E36_18%,#13312D_32%,#13312D_100%)] overflow-hidden flex justify-center">
+    <div className="h-screen relative bg-[linear-gradient(180deg_in_srgb,#22473E_0%,#1E3E36_18%,#13312D_32%,#13312D_100%)] overflow-hidden flex justify-center">
       <Galaxy
         starSpeed={0.2}
         density={0.6}
