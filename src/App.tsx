@@ -1,5 +1,4 @@
 import { useState } from "react";
-// import Galaxy from "./components/Galaxy";
 import BorderBackground from "./components/border-background";
 import FooterYear from "./components/footer-year";
 import TextType from "./components/TextType";
@@ -16,6 +15,7 @@ import {
   InputGroupInput,
 } from "./components/ui/input-group";
 import { PartyPopper } from "./components/animate-ui/icons/party-popper";
+import { StarsBackground } from "./components/animate-ui/components/backgrounds/stars";
 
 function App() {
   const [open, setOpen] = useState(true);
@@ -25,26 +25,13 @@ function App() {
   //   "bg-[image:linear-gradient(180deg,#22473E_0%,#1E3E36_18%,#13312D_32%,#13312D_100%)]",
   // );
   return (
-    <div className="h-screen relative bg-linear-to-b from-[#0F4265] via-[#1A5C8A] to-[#2B7CB1] overflow-hidden flex justify-center">
-      {/* <Galaxy
-        starSpeed={0.2}
-        density={0.6}
-        hueShift={40}
-        speed={0.3}
-        glowIntensity={0.1}
-        saturation={0}
-        mouseRepulsion={false}
-        repulsionStrength={1}
-        twinkleIntensity={0}
-        rotationSpeed={0.05}
-        transparent
-      /> */}
+    <StarsBackground className="h-screen relative bg-linear-to-b from-[#0F4265] via-[#1A5C8A] to-[#2B7CB1] overflow-hidden flex justify-center">
       <BorderBackground />
       <FooterYear />
       <div className="mx-auto my-12 flex flex-col gap-2 items-center">
         <div className="flex items-center gap-4">
           <p className="text-[#8bdcff]">Thiệp mời tốt nghiệp</p>
-          <p className="w-12 h-px bg-[#C9A961]/38"></p>
+          <p className="w-12 h-px bg-[#8bdcff]/38"></p>
           <p className="text-white/70">2026</p>
         </div>
         <div className="h-56 relative w-57 flex items-center justify-center">
@@ -95,12 +82,12 @@ function App() {
         </Button>
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogContent
-            className={"bg-[#ffcf5c29] border border-[#8bdcff]"}
+            className={"bg-[#87592129] border border-[#8bdcff]"}
             showCloseButton={false}
           >
             <InputGroup className="border border-[#8bdcff]/38 ">
               <InputGroupInput
-                className="placeholder:text-[#8bdcff]/38"
+                className="placeholder:text-[#8bdcff]/38 text-white"
                 placeholder="Nhập tên của bạn :33"
                 onChange={(e) => {
                   setName(e.target.value);
@@ -121,7 +108,7 @@ function App() {
           </DialogContent>
         </Dialog>
       </div>
-    </div>
+    </StarsBackground>
   );
 }
 
