@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import Galaxy from "./components/Galaxy";
 import BorderBackground from "./components/border-background";
 import FooterYear from "./components/footer-year";
