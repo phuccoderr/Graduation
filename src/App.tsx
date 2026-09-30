@@ -25,7 +25,7 @@ function App() {
   //   "bg-[image:linear-gradient(180deg,#22473E_0%,#1E3E36_18%,#13312D_32%,#13312D_100%)]",
   // );
   return (
-    <div className="h-screen relative bg-linear-to-b from-[#0F4265] via-[#1A5C8A] to-[#2B7CB1] overflow-hidden flex justify-center">
+    <div className="h-screen relative bg-gradient-to-b from-[#0F4265] via-[#1A5C8A] to-[#2B7CB1] overflow-hidden flex justify-center">
       <Galaxy
         starSpeed={0.2}
         density={0.6}
@@ -47,7 +47,7 @@ function App() {
           <p className="w-12 h-px bg-[#C9A961]/38"></p>
           <p className="text-white/70">2026</p>
         </div>
-        <div className="h-56 relative w-57 flex items-center justify-center">
+        <div className="h-56 relative w-[14.25rem] flex items-center justify-center">
           {/* Khung Border chứa hình ảnh bên trong */}
           <div
             className="absolute right-4 left-4 
@@ -65,7 +65,7 @@ function App() {
 
         <div className="flex flex-col gap-3 items-center">
           <p className="text-2xl text-[#8bdcff] font-bold">Ngọc Phụng</p>
-          <p className="text-sm text-[rgb(240_250_255/0.86)]">
+          <p className="text-sm text-[rgb(240_250_255_/_0.86)]">
             ĐẠI HỌC CẦN THƠ
           </p>
           <p className="text-sm text-[rgb(240_250_255/_0.66)]">
@@ -89,7 +89,7 @@ function App() {
         <p className="w-[80%] h-[0.5px] bg-[#8bdcff]/38 mx-auto"></p>
         <Button
           size="lg"
-          className="px-24 py-6 bg-(image:--gradient-cyan-orange) text-[#0c3450] rounded-full cursor-pointer z-10"
+          className="px-24 py-6 bg-[image:var(--gradient-cyan-orange)] text-[#0c3450] rounded-full cursor-pointer z-10"
         >
           Chạm để mở thiệp
         </Button>
@@ -114,7 +114,7 @@ function App() {
               onClick={() => {
                 setOpen(false);
               }}
-              className="bg-(image:--gradient-cyan-orange) text-[#0c3450] rounded-full "
+              className="bg-[image:var(--gradient-cyan-orange)] text-[#0c3450] rounded-full "
             >
               Lưu
             </Button>
