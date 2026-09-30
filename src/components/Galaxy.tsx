@@ -376,5 +376,11 @@ export default function Galaxy({
     lightMode,
   ]);
 
-  return <div ref={ctnDom} className="galaxy-container" {...rest} />;
+  return (
+    <div
+      ref={ctnDom}
+      className="galaxy-container pointer-events-none"
+      {...rest}
+    />
+  );
 }
