@@ -20,9 +20,9 @@ function App() {
   const [open, setOpen] = useState(true);
   const [name, setName] = useState("");
 
-  const bg_green = useRef(
-    "bg-[image:linear-gradient(180deg,#22473E_0%,#1E3E36_18%,#13312D_32%,#13312D_100%)]",
-  );
+  // const bg_green = useRef(
+  //   "bg-[image:linear-gradient(180deg,#22473E_0%,#1E3E36_18%,#13312D_32%,#13312D_100%)]",
+  // );
   return (
     <div className="h-screen relative bg-sky-400 overflow-hidden flex justify-center">
       <Galaxy
