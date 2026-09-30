@@ -61,10 +61,9 @@ const GraduationCap = ({ className, size = "22rem" }: Props) => {
               y2="160"
               gradientUnits="userSpaceOnUse"
             >
-              <stop offset="0%" stopColor="#22473E" />
-              <stop offset="18%" stopColor="#1E3E36" />
-              <stop offset="32%" stopColor="#13312D" />
-              <stop offset="100%" stopColor="#13312D" />
+              <stop offset="0%" stopColor="#0F4265" />
+              <stop offset="50%" stopColor="#1A5C8A" />
+              <stop offset="100%" stopColor="#2B7CB1" />
             </linearGradient>
           </defs>
 
@@ -92,7 +91,7 @@ const GraduationCap = ({ className, size = "22rem" }: Props) => {
             />
             <polygon
               points="160,52 288,102 160,152 32,102"
-              fill="#13312D"
+              fill="#0F4265"
               opacity=".18"
             />
 
