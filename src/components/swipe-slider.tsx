@@ -9,24 +9,34 @@ import { motion, AnimatePresence } from "motion/react";
 import NgocPhung2Jpg from "@/assets/NgocPhung2.jpg";
 import GradientText from "./GradientText";
 
-const SlideOne = () => (
+const SlideOne = ({ canAnimate }: { canAnimate: boolean }) => (
   <div className="flex flex-col items-center gap-2">
     <motion.figure
       className="bg-white -rotate-2 relative"
       initial={{ scale: 0.9, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
+      animate={
+        canAnimate ? { scale: 1, opacity: 1 } : { scale: 0.9, opacity: 0 }
+      }
       transition={{ duration: 0.4 }}
     >
       <motion.span
         className="absolute w-12.5 h-5 bg-[#ffffffb3] -top-2.5 -right-2 rotate-36 shadow-lg"
         initial={{ y: -30, opacity: 0, scale: 0.8 }}
-        animate={{ y: 0, opacity: 1, scale: 1 }}
+        animate={
+          canAnimate
+            ? { y: 0, opacity: 1, scale: 1 }
+            : { y: -30, opacity: 0, scale: 0.8 }
+        }
         transition={{ delay: 1.5, type: "spring", stiffness: 300, damping: 20 }}
       ></motion.span>
       <motion.span
         className="absolute w-12.5 h-5 bg-[#ffffffb3] -top-2.5 -left-2 -rotate-36 shadow-lg"
         initial={{ y: -30, opacity: 0, scale: 0.8 }}
-        animate={{ y: 0, opacity: 1, scale: 1 }}
+        animate={
+          canAnimate
+            ? { y: 0, opacity: 1, scale: 1 }
+            : { y: -30, opacity: 0, scale: 0.8 }
+        }
         transition={{ delay: 1.5, type: "spring", stiffness: 300, damping: 20 }}
       ></motion.span>
       <div className="m-2 w-50 h-50 bg-red-200 ">
@@ -34,7 +44,9 @@ const SlideOne = () => (
           src={NgocPhung2Jpg}
           className="object-cover object-[0%_5%] w-full h-full"
           initial={{ opacity: 0, scale: 1.1 }}
-          animate={{ opacity: 1, scale: 1 }}
+          animate={
+            canAnimate ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 1.1 }
+          }
           transition={{ duration: 1, ease: "easeOut" }}
         />
       </div>
@@ -42,7 +54,7 @@ const SlideOne = () => (
     <motion.div
       className="bg-[#F5F0D5] flex gap-1.5 items-center rounded-[6px] py-2 px-4 z-10"
       initial={{ y: -60, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
+      animate={canAnimate ? { y: 0, opacity: 1 } : { y: -60, opacity: 0 }}
       transition={{ duration: 1.25, ease: "easeOut" }}
     >
       <span className="inline-flex w-1.75 h-1.75 rounded-[50%] bg-[radial-gradient(circle_at_30%_30%,#fff,#39a9e8_60%,color-mix(in_srgb,#39a9e8,#021b2c_62%))]"></span>
@@ -52,14 +64,14 @@ const SlideOne = () => (
     <motion.span
       className="uppercase text-xs font-bold font-quicksand tracking-[.16em] text-[color:color(srgb_0.0898039_0.31749_0.452706)]"
       initial={{ x: -60, opacity: 0 }}
-      animate={{ x: 0, opacity: 1 }}
+      animate={canAnimate ? { x: 0, opacity: 1 } : { x: -60, opacity: 0 }}
       transition={{ duration: 1.25, ease: "easeOut" }}
     >
       Graduation Ceremony
     </motion.span>
     <motion.div
       initial={{ y: 60, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
+      animate={canAnimate ? { y: 0, opacity: 1 } : { y: 60, opacity: 0 }}
       transition={{ duration: 1.25, ease: "easeOut" }}
     >
       <GradientText
@@ -78,7 +90,7 @@ const SlideOne = () => (
     <motion.div
       className="flex items-center justify-center gap-2 text-[rgba(16,58,82,.72)] text-[13px]"
       initial={{ x: 60, opacity: 0 }}
-      animate={{ x: 0, opacity: 1 }}
+      animate={canAnimate ? { x: 0, opacity: 1 } : { x: 60, opacity: 0 }}
       transition={{ duration: 1.25, ease: "easeOut" }}
     >
       <span className="">Đại học Cần Thơ</span>
@@ -124,35 +136,6 @@ interface SlideItem {
   component: ReactNode;
 }
 
-const slides: SlideItem[] = [
-  {
-    id: 1,
-    bg: `
-      radial-gradient(at 83.94% 55.7%, hsla(198.57, 100%, 56.27%, 1) 0%, hsla(198.57, 100%, 56.27%, 0) 100%),
-      radial-gradient(at 26.08% 93.01%, hsla(0, 0%, 100%, 1) 0%, hsla(0, 0%, 100%, 0) 100%),
-      radial-gradient(at 72.91% 65.4%, hsla(198.57, 100%, 56.27%, 1) 0%, hsla(198.57, 100%, 56.27%, 0) 100%),
-      radial-gradient(at 62.95% 80.93%, hsla(0, 0%, 100%, 1) 0%, hsla(0, 0%, 100%, 0) 100%),
-      radial-gradient(at 21.96% 24.3%, hsla(198.57, 100%, 56.27%, 1) 0%, hsla(198.57, 100%, 56.27%, 0) 100%)
-    `,
-    component: <SlideOne />,
-  },
-  {
-    id: 2,
-    bg: "linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d)",
-    component: <SlideTwo />,
-  },
-  {
-    id: 3,
-    bg: "linear-gradient(135deg, #134e5e, #71b280)",
-    component: <SlideThree />,
-  },
-  {
-    id: 4,
-    bg: "linear-gradient(135deg, #4b6cb7, #182848)",
-    component: <SlideFour />,
-  },
-];
-
 const variants = {
   enter: (direction: number) => ({
     y: direction > 0 ? "100%" : "-100%",
@@ -168,10 +151,53 @@ const variants = {
   }),
 };
 
-export default function SwipeSlider() {
+export default function SwipeSlider({ isOpen }: { isOpen: boolean }) {
   const [[page, direction], setPage] = useState([0, 0]);
   const isAnimating = useRef(false);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const [canAnimate, setCanAnimate] = useState(false);
+
+  const slides: SlideItem[] = [
+    {
+      id: 1,
+      bg: `
+      radial-gradient(at 83.94% 55.7%, hsla(198.57, 100%, 56.27%, 1) 0%, hsla(198.57, 100%, 56.27%, 0) 100%),
+      radial-gradient(at 26.08% 93.01%, hsla(0, 0%, 100%, 1) 0%, hsla(0, 0%, 100%, 0) 100%),
+      radial-gradient(at 72.91% 65.4%, hsla(198.57, 100%, 56.27%, 1) 0%, hsla(198.57, 100%, 56.27%, 0) 100%),
+      radial-gradient(at 62.95% 80.93%, hsla(0, 0%, 100%, 1) 0%, hsla(0, 0%, 100%, 0) 100%),
+      radial-gradient(at 21.96% 24.3%, hsla(198.57, 100%, 56.27%, 1) 0%, hsla(198.57, 100%, 56.27%, 0) 100%)
+    `,
+      component: <SlideOne canAnimate={canAnimate} />,
+    },
+    {
+      id: 2,
+      bg: "linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d)",
+      component: <SlideTwo />,
+    },
+    {
+      id: 3,
+      bg: "linear-gradient(135deg, #134e5e, #71b280)",
+      component: <SlideThree />,
+    },
+    {
+      id: 4,
+      bg: "linear-gradient(135deg, #4b6cb7, #182848)",
+      component: <SlideFour />,
+    },
+  ];
+
+  useEffect(() => {
+    if (isOpen) {
+      // Đợi FadeContent fade-in xong (ví dụ khớp với duration=1000 của FadeContent)
+      const timer = setTimeout(() => {
+        setCanAnimate(true);
+      }, 300); // Điều chỉnh độ trễ này (ms) cho phù hợp với FadeContent của bạn
+      return () => clearTimeout(timer);
+    } else {
+      setCanAnimate(false);
+    }
+  }, [isOpen]);
 
   const paginate = useCallback(
     (newDirection: number) => {

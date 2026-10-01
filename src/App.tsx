@@ -120,7 +120,7 @@ function App() {
           initialOpacity={0}
           className="absolute inset-0 z-50 h-screen w-screen overflow-hidden"
         >
-          <SwipeSlider />
+          <SwipeSlider isOpen={openLetter} />
         </FadeContent>
       )}
     </StarsBackground>
