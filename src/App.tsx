@@ -16,10 +16,13 @@ import {
 } from "./components/ui/input-group";
 import { PartyPopper } from "./components/animate-ui/icons/party-popper";
 import { StarsBackground } from "./components/animate-ui/components/backgrounds/stars";
+import SwipeSlider from "./components/swipe-slider";
+import FadeContent from "./components/FadeContent";
 
 function App() {
   const [open, setOpen] = useState(true);
   const [name, setName] = useState("");
+  const [openLetter, setOpenLetter] = useState(false);
 
   // const bg_green = useRef(
   //   "bg-[image:linear-gradient(180deg,#22473E_0%,#1E3E36_18%,#13312D_32%,#13312D_100%)]",
@@ -37,7 +40,7 @@ function App() {
         <div className="h-56 relative w-57 flex items-center justify-center">
           {/* Khung Border chứa hình ảnh bên trong */}
           <div
-            className="absolute right-4 left-4 
+            className="absolute right-4 left-4
     border border-[#8bdcff]/38 pointer-events-none rounded-t-full h-full overflow-hidden flex items-center justify-center"
           >
             <img
@@ -77,6 +80,7 @@ function App() {
         <Button
           size="lg"
           className="px-24 py-6 bg-(image:--gradient-cyan-orange) text-[#0c3450] rounded-full cursor-pointer z-10"
+          onClick={() => setOpenLetter(true)}
         >
           Chạm để mở thiệp
         </Button>
@@ -94,7 +98,7 @@ function App() {
                 }}
               />
               <InputGroupAddon className="text-[#8bdcff]">
-                <PartyPopper animateOnHover />
+                <PartyPopper loop loopDelay={1000} animate />
               </InputGroupAddon>
             </InputGroup>
             <Button
@@ -108,6 +112,17 @@ function App() {
           </DialogContent>
         </Dialog>
       </div>
+      {openLetter && (
+        <FadeContent
+          blur={true}
+          duration={1000}
+          ease="ease-out"
+          initialOpacity={0}
+          className="absolute inset-0 z-50 h-screen w-screen overflow-hidden"
+        >
+          <SwipeSlider />
+        </FadeContent>
+      )}
     </StarsBackground>
   );
 }
