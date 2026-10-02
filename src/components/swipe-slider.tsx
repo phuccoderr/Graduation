@@ -1,12 +1,12 @@
 import {
-  useState,
   useEffect,
   useCallback,
   useRef,
+  useState,
   type ReactNode,
 } from "react";
-import { motion, AnimatePresence } from "motion/react";
-import NgocPhung2Jpg from "@/assets/NgocPhung2.jpg";
+import { AnimatePresence, MotionConfig, motion } from "motion/react";
+import NgocPhung2Webp from "@/assets/NgocPhung2.webp";
 import GradientText from "./GradientText";
 
 const SlideOne = ({ canAnimate }: { canAnimate: boolean }) => (
@@ -17,7 +17,7 @@ const SlideOne = ({ canAnimate }: { canAnimate: boolean }) => (
       animate={
         canAnimate ? { scale: 1, opacity: 1 } : { scale: 0.9, opacity: 0 }
       }
-      transition={{ duration: 0.4 }}
+      transition={{ duration: 1 }}
     >
       <motion.span
         className="absolute w-12.5 h-5 bg-[#ffffffb3] -top-2.5 -right-2 rotate-36 shadow-lg"
@@ -27,7 +27,12 @@ const SlideOne = ({ canAnimate }: { canAnimate: boolean }) => (
             ? { y: 0, opacity: 1, scale: 1 }
             : { y: -30, opacity: 0, scale: 0.8 }
         }
-        transition={{ delay: 1.5, type: "spring", stiffness: 300, damping: 20 }}
+        transition={{
+          delay: 1.25,
+          type: "spring",
+          stiffness: 300,
+          damping: 20,
+        }}
       ></motion.span>
       <motion.span
         className="absolute w-12.5 h-5 bg-[#ffffffb3] -top-2.5 -left-2 -rotate-36 shadow-lg"
@@ -37,17 +42,25 @@ const SlideOne = ({ canAnimate }: { canAnimate: boolean }) => (
             ? { y: 0, opacity: 1, scale: 1 }
             : { y: -30, opacity: 0, scale: 0.8 }
         }
-        transition={{ delay: 1.5, type: "spring", stiffness: 300, damping: 20 }}
+        transition={{
+          delay: 1.25,
+          type: "spring",
+          stiffness: 300,
+          damping: 20,
+        }}
       ></motion.span>
       <div className="m-2 w-50 h-50 bg-red-200 ">
         <motion.img
-          src={NgocPhung2Jpg}
+          src={NgocPhung2Webp}
+          alt="Ngọc Phụng trong ảnh tốt nghiệp"
+          width={200}
+          height={200}
           className="object-cover object-[0%_5%] w-full h-full"
           initial={{ opacity: 0, scale: 1.1 }}
           animate={
             canAnimate ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 1.1 }
           }
-          transition={{ duration: 1, ease: "easeOut" }}
+          transition={{ duration: 1.25, ease: "easeOut" }}
         />
       </div>
     </motion.figure>
@@ -151,12 +164,11 @@ const variants = {
   }),
 };
 
-export default function SwipeSlider({ isOpen }: { isOpen: boolean }) {
+export default function SwipeSlider({ canAnimate }: { canAnimate: boolean }) {
   const [[page, direction], setPage] = useState([0, 0]);
+  const pageRef = useRef(0);
   const isAnimating = useRef(false);
   const containerRef = useRef<HTMLDivElement>(null);
-
-  const [canAnimate, setCanAnimate] = useState(false);
 
   const slides: SlideItem[] = [
     {
@@ -187,29 +199,19 @@ export default function SwipeSlider({ isOpen }: { isOpen: boolean }) {
     },
   ];
 
-  useEffect(() => {
-    if (isOpen) {
-      // Đợi FadeContent fade-in xong (ví dụ khớp với duration=1000 của FadeContent)
-      const timer = setTimeout(() => {
-        setCanAnimate(true);
-      }, 300); // Điều chỉnh độ trễ này (ms) cho phù hợp với FadeContent của bạn
-      return () => clearTimeout(timer);
-    } else {
-      setCanAnimate(false);
-    }
-  }, [isOpen]);
-
+  const pageCount = slides.length;
   const paginate = useCallback(
     (newDirection: number) => {
       if (isAnimating.current) return;
 
-      const next = page + newDirection;
-      if (next < 0 || next >= slides.length) return;
+      const next = pageRef.current + newDirection;
+      if (next < 0 || next >= pageCount) return;
 
       isAnimating.current = true;
+      pageRef.current = next;
       setPage([next, newDirection]);
     },
-    [page],
+    [pageCount],
   );
 
   // Wheel (mouse / trackpad) - Chống tràn event và chặn bounce mặc định của trình duyệt
@@ -230,6 +232,13 @@ export default function SwipeSlider({ isOpen }: { isOpen: boolean }) {
   // Keyboard
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
+      if (
+        e.target instanceof HTMLElement &&
+        e.target.closest("input, textarea, select, [contenteditable='true']")
+      ) {
+        return;
+      }
+
       if (e.key === "ArrowDown" || e.key === "PageDown") {
         e.preventDefault();
         paginate(1);
@@ -246,92 +255,113 @@ export default function SwipeSlider({ isOpen }: { isOpen: boolean }) {
   const currentSlide = slides[page];
 
   return (
-    <div
-      ref={containerRef}
-      style={{
-        position: "relative",
-        width: "100vw",
-        height: "100vh",
-        overflow: "hidden",
-        touchAction: "none",
-        backgroundColor: "#fff", // Khóa màu nền container trùng với slide để lỡ có khoảng trống không bị lộ màu trắng
-      }}
-    >
-      <AnimatePresence
-        initial={false}
-        custom={direction}
-        mode="sync" // Dùng sync để slide mới và cũ chạy song song, che lấp nhau hoàn hảo
-        onExitComplete={() => {
-          isAnimating.current = false;
+    <MotionConfig reducedMotion="user">
+      <div
+        ref={containerRef}
+        role="region"
+        aria-label="Thiệp mời tốt nghiệp"
+        style={{
+          position: "relative",
+          width: "100%",
+          height: "100dvh",
+          overflow: "hidden",
+          touchAction: "none",
+          // backgroundColor: "red",
         }}
       >
-        <motion.div
-          key={page}
+        <AnimatePresence
+          initial={false}
           custom={direction}
-          variants={variants}
-          initial="enter"
-          animate="center"
-          exit="exit"
-          transition={{
-            y: { type: "tween", duration: 0.8, ease: [0.25, 1, 0.5, 1] },
-          }}
-          drag="y"
-          dragConstraints={{ top: 0, bottom: 0 }}
-          dragElastic={0.2}
-          onDragEnd={(_, info) => {
-            if (info.offset.y < -50) paginate(1);
-            else if (info.offset.y > 50) paginate(-1);
-          }}
-          style={{
-            position: "absolute",
-            inset: 0,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundImage: currentSlide.bg,
-            color: "white",
-            userSelect: "none",
-            cursor: "grab",
-            willChange: "transform", // Tối ưu GPU rendering giúp chuyển động mượt hơn, hết rung
+          mode="sync" // Dùng sync để slide mới và cũ chạy song song, che lấp nhau hoàn hảo
+          onExitComplete={() => {
+            isAnimating.current = false;
           }}
         >
-          {currentSlide.component}
-          {/* Indicator dots */}
-          <div
+          <motion.div
+            key={page}
+            custom={direction}
+            variants={variants}
+            initial="enter"
+            animate={"center"}
+            exit="exit"
+            transition={{
+              y: { type: "tween", duration: 0.8, ease: [0.25, 1, 0.5, 1] },
+            }}
+            drag="y"
+            dragConstraints={{ top: 0, bottom: 0 }}
+            dragElastic={0.2}
+            onDragEnd={(_, info) => {
+              if (info.offset.y < -50) paginate(1);
+              else if (info.offset.y > 50) paginate(-1);
+            }}
             style={{
               position: "absolute",
-              right: 24,
-              top: "50%",
-              transform: "translateY(-50%)",
+              inset: 0,
               display: "flex",
               flexDirection: "column",
-              gap: 10,
-              zIndex: 10,
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundImage: currentSlide.bg,
+              color: "white",
+              userSelect: "none",
+              cursor: "grab",
+              willChange: "transform", // Tối ưu GPU rendering giúp chuyển động mượt hơn, hết rung
             }}
           >
-            {slides.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => {
-                  if (i === page || isAnimating.current) return;
-                  isAnimating.current = true;
-                  setPage([i, i > page ? 1 : -1]);
-                }}
-                style={{
-                  width: 10,
-                  height: 10,
-                  borderRadius: "50%",
-                  border: "none",
-                  background: i === page ? "white" : "rgba(255,255,255,0.35)",
-                  cursor: "pointer",
-                  padding: 0,
-                }}
-              />
-            ))}
-          </div>
-        </motion.div>
-      </AnimatePresence>
-    </div>
+            {currentSlide.component}
+
+            {/* Indicator dots */}
+            <div
+              style={{
+                position: "absolute",
+                right: "calc(0.5rem + env(safe-area-inset-right))",
+                top: "50%",
+                transform: "translateY(-50%)",
+                display: "flex",
+                flexDirection: "column",
+                gap: 10,
+                zIndex: 10,
+              }}
+            >
+              {slides.map((_, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  aria-label={`Chuyển đến trang ${i + 1}`}
+                  aria-current={i === page ? "step" : undefined}
+                  onClick={() => {
+                    if (i === page || isAnimating.current) return;
+                    isAnimating.current = true;
+                    pageRef.current = i;
+                    setPage([i, i > page ? 1 : -1]);
+                  }}
+                  style={{
+                    display: "grid",
+                    width: 44,
+                    height: 44,
+                    placeItems: "center",
+                    border: "none",
+                    background: "transparent",
+                    cursor: "pointer",
+                    padding: 0,
+                  }}
+                >
+                  <span
+                    aria-hidden="true"
+                    style={{
+                      width: 10,
+                      height: 10,
+                      borderRadius: "50%",
+                      background:
+                        i === page ? "white" : "rgba(255,255,255,0.55)",
+                    }}
+                  />
+                </button>
+              ))}
+            </div>
+          </motion.div>
+        </AnimatePresence>
+      </div>
+    </MotionConfig>
   );
 }

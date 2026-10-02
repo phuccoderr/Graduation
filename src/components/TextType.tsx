@@ -9,7 +9,6 @@ import {
   useMemo,
   useCallback,
 } from "react";
-import { gsap } from "gsap";
 
 interface TextTypeProps {
   className?: string;
@@ -58,8 +57,7 @@ const TextType = ({
   const [isDeleting, setIsDeleting] = useState(false);
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(!startOnVisible);
-  const cursorRef = useRef<HTMLSpanElement>(null);
-  const containerRef = useRef<HTMLElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const textArray = useMemo(
     () => (Array.isArray(text) ? text : [text]),
@@ -94,19 +92,6 @@ const TextType = ({
     observer.observe(containerRef.current);
     return () => observer.disconnect();
   }, [startOnVisible]);
-
-  useEffect(() => {
-    if (showCursor && cursorRef.current) {
-      gsap.set(cursorRef.current, { opacity: 1 });
-      gsap.to(cursorRef.current, {
-        opacity: 0,
-        duration: cursorBlinkDuration,
-        repeat: -1,
-        yoyo: true,
-        ease: "power2.inOut",
-      });
-    }
-  }, [showCursor, cursorBlinkDuration]);
 
   useEffect(() => {
     if (!isVisible) return;
@@ -179,6 +164,7 @@ const TextType = ({
     isVisible,
     reverseMode,
     variableSpeed,
+    getRandomSpeed,
     onSentenceComplete,
   ]);
 
@@ -186,27 +172,30 @@ const TextType = ({
     hideCursorWhileTyping &&
     (currentCharIndex < textArray[currentTextIndex].length || isDeleting);
 
-  return createElement(
-    Component,
-    {
-      ref: containerRef,
-      className: `inline-block whitespace-pre-wrap tracking-tight ${className}`,
-      ...props,
-    },
-    <span
-      className="inline"
-      style={{ color: getCurrentTextColor() || "inherit" }}
-    >
-      {displayedText}
-    </span>,
-    showCursor && (
-      <span
-        ref={cursorRef}
-        className={`ml-1 inline-block opacity-100 ${shouldHideCursor ? "hidden" : ""} ${cursorClassName}`}
-      >
-        {cursorCharacter}
-      </span>
-    ),
+  return (
+    <div ref={containerRef}>
+      {createElement(
+        Component,
+        {
+          className: `inline-block whitespace-pre-wrap tracking-tight ${className}`,
+          ...props,
+        },
+        <span
+          className="inline"
+          style={{ color: getCurrentTextColor() || "inherit" }}
+        >
+          {displayedText}
+        </span>,
+        showCursor && (
+          <span
+            className={`text-type-cursor ml-1 inline-block opacity-100 ${shouldHideCursor ? "hidden" : ""} ${cursorClassName}`}
+            style={{ animationDuration: `${cursorBlinkDuration}s` }}
+          >
+            {cursorCharacter}
+          </span>
+        ),
+      )}
+    </div>
   );
 };
 
