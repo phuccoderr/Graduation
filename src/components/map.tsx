@@ -27,26 +27,24 @@ export default function FreeMapCard({
 
   return (
     <>
-      <div className="relative h-full w-full rounded-xl overflow-hidden">
-        <iframe
-          src={embedUrl}
-          className="w-full h-full"
-          allowFullScreen
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-          title="Bản đồ"
-        />
+      <iframe
+        src={embedUrl}
+        className="w-full min-h-75"
+        allowFullScreen
+        loading="lazy"
+        referrerPolicy="no-referrer-when-downgrade"
+        title="Bản đồ"
+      />
 
-        <button
-          onClick={getDirections}
-          className="absolute bottom-5 right-2 z-10 bg-[linear-gradient(135deg,#39a9e8,color-mix(in_srgb,#39a9e8,#021b2c_62%))] text-white font-medium px-5 py-2.5 rounded-xl shadow-lg flex items-center gap-2 transition"
-        >
-          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z" />
-          </svg>
-          Chỉ đường
-        </button>
-      </div>
+      <button
+        onClick={getDirections}
+        className="absolute bottom-13 right-8 z-10 bg-[linear-gradient(135deg,#39a9e8,color-mix(in_srgb,#39a9e8,#021b2c_62%))] text-white font-medium px-5 py-2.5 rounded-xl shadow-lg flex items-center gap-2 transition"
+      >
+        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z" />
+        </svg>
+        Chỉ đường
+      </button>
     </>
   );
 }

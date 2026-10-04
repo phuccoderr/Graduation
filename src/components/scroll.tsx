@@ -473,7 +473,7 @@ const Scroll = () => {
           </span>
         </motion.div>
         <motion.div
-          className="relative border border-dashed border-[#39a9e8] bg-white py-7.5 px-6.5 min-h-75 min-w-130"
+          className="relative  rounded-xl overflow-hidden border border-dashed border-[#39a9e8] bg-white py-7.5 px-6.5 w-full"
           initial={{ scale: 0.85, opacity: 0 }}
           whileInView={{ scale: 1, opacity: 1 }}
           transition={{ duration: 1.25 }}
@@ -497,7 +497,7 @@ const Scroll = () => {
           </span>
         </motion.div>
         <motion.div
-          className="relative border border-[#39a9e8] bg-white py-7.5 px-6.5 rounded-[10px] min-w-120"
+          className="relative border border-[#39a9e8] bg-white py-7.5 px-6.5 rounded-[10px] w-full"
           initial={{ y: 30, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
           transition={{ duration: 1.25 }}
