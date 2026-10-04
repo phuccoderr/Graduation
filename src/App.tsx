@@ -32,7 +32,8 @@ function App() {
   return (
     <>
       <StarsBackground
-        className={`h-screen relative bg-linear-to-b from-[#0F4265] via-[#1A5C8A] to-[#2B7CB1]`}
+        starColor={openLetter ? "#39a9e8" : "#fff"}
+        className={`min-h-screen relative bg-linear-to-b from-[#0F4265] via-[#1A5C8A] to-[#2B7CB1]`}
       >
         {!openLetter && (
           <div className="h-full w-full flex justify-center">

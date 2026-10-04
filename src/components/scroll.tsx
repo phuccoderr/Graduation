@@ -3,10 +3,14 @@ import NgocPhung2Webp from "@/assets/NgocPhung2.webp";
 import GradientText from "./GradientText";
 import { Player } from "@lordicon/react";
 import giftAnimation from "@/assets/wired-gradient-412-gift-morph-open.json";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Send } from "./animate-ui/icons/send";
-import { GraduationCap } from "lucide-react";
+import { GraduationCap, MapPin, Notebook } from "lucide-react";
 import Countdown from "./count-down";
+import FreeMapCard from "./map";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "./ui/input-group";
+import { Users } from "./animate-ui/icons/users";
+import { Textarea } from "./ui/textarea";
 
 function TextDrop({ text }: { text: string }) {
   const words = text.split(" ");
@@ -170,6 +174,10 @@ const CalendarNovember2026 = () => {
 };
 
 const Scroll = () => {
+  const [note, setNote] = useState({
+    name: "",
+    message: "",
+  });
   const playerRef = useRef<Player>(null);
   useEffect(() => {
     playerRef.current?.playFromBeginning();
@@ -177,7 +185,7 @@ const Scroll = () => {
   return (
     <>
       <div
-        className="w-full py-12 flex flex-col items-center gap-2"
+        className="w-full py-12 flex flex-col items-center gap-2 z-10"
         style={{
           backgroundImage: `
               radial-gradient(at 83.94% 55.7%, hsla(198.57, 100%, 56.27%, 1) 0%, hsla(198.57, 100%, 56.27%, 0) 100%),
@@ -230,7 +238,7 @@ const Scroll = () => {
           </div>
         </motion.figure>
         <motion.div
-          className="bg-[#F5F0D5] flex gap-1.5 items-center rounded-[6px] py-2 px-4 z-10"
+          className="bg-[#F5F0D5] flex gap-1.5 items-center rounded-[6px] py-2 px-4"
           initial={{ y: -60, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
           transition={{ duration: 1.25, ease: "easeOut" }}
@@ -297,7 +305,7 @@ const Scroll = () => {
         </div>
       </div>
       {/* Section 3 */}
-      <div className="flex flex-col items-center justify-center gap-5 w-full p-6 bg-white">
+      <div className="flex flex-col items-center justify-center gap-5 w-full p-6 bg-[#ffffffec]">
         <motion.div
           className="py-2 pr-3.5 pl-4.5 text-[11px] flex justify-center items-center border border-[#39a9e8] border-dashed rounded-4xl"
           initial={{ y: -60, opacity: 0 }}
@@ -358,6 +366,205 @@ const Scroll = () => {
           onComplete={() => alert("Chúc mừng năm mới!")}
         />
         <CalendarNovember2026 />
+
+        <motion.div
+          className="p-4 flex items-start gap-3 border border-[#2a9fd633] rounded-[18px] min-w-95"
+          initial={{ x: 90, opacity: 0 }}
+          whileInView={{ x: 0, opacity: 1 }}
+          transition={{ duration: 1.25 }}
+        >
+          <MapPin size={17} className="text-[#39a9e8] mt-0.5" />
+          <div className="flex flex-col items-start">
+            <span className="text-[color-mix(in_srgb,#39a9e8,#021b2c_62%)] font-black text-[15px]/[1.4]">
+              Hội trường rùa
+            </span>
+            <span className="mt-1 text-[rgba(16,58,82,.72)] text-[13px]/[1.55]">
+              Đường 3/2, Ninh Kiều, Cần Thơ
+            </span>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Section 4 */}
+      <div
+        className={` flex flex-col justify-center items-center gap-5 w-full py-14 px-5 bg-gradient-to-b from-white to-[rgb(234,248,255)]`}
+      >
+        <motion.div
+          className="py-2 pr-3.5 pl-4.5 text-[11px] flex justify-center items-center border border-[#39a9e8] border-dashed rounded-4xl"
+          initial={{ y: -60, opacity: 0 }}
+          whileInView={{ y: 0, opacity: 1 }}
+          transition={{ duration: 1.25 }}
+        >
+          <span className="inline-flex w-1.75 h-1.75 rounded-[50%] bg-[radial-gradient(circle_at_30%_30%,#fff,#39a9e8_60%,color-mix(in_srgb,#39a9e8,#021b2c_62%))] mr-2"></span>
+          <span className="text-[color(srgb_0.0898039_0.31749_0.452706)] font-quicksand tracking-[.16em] font-bold">
+            HÀNH TRÌNH NGÀY VUI
+          </span>
+        </motion.div>
+        <motion.span
+          className="font-black! font-baloo text-[color(srgb_0.0898039_0.31749_0.452706)] text-[22px]"
+          initial={{ y: 60, opacity: 0 }}
+          whileInView={{ y: 0, opacity: 1 }}
+          transition={{ duration: 1.25 }}
+        >
+          Timeline
+        </motion.span>
+        <div
+          className={`relative flex flex-col self-start before:content-[""] before:absolute before:top-3 before:bottom-3 before:w-[1.5px] before:bg-[repeating-linear-gradient(rgba(42,159,214,0.4)_0px,rgba(42,159,214,0.4)_6px,transparent_6px,transparent_12px)] before:left-2.5 before:translate-x-[-50%]`}
+        >
+          <motion.div
+            className="flex items-center gap-2 text-sm/normal py-3.5"
+            initial={{ x: 60, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            transition={{ duration: 1.25 }}
+          >
+            <span className="text-[#39a9e8] font-black">8:00</span>
+            <span className="font-quicksand font-black  text-[rgba(16,58,82,.72)]">
+              Check-in
+            </span>
+          </motion.div>
+          <motion.div
+            className="flex items-center gap-2 text-sm/normal py-3.5"
+            initial={{ x: -60, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            transition={{ duration: 1.25 }}
+          >
+            <span className="text-[#39a9e8] font-black">8:00</span>
+            <span className="font-quicksand font-black  text-[rgba(16,58,82,.72)]">
+              Check-in
+            </span>
+          </motion.div>
+          <motion.div
+            className="flex items-center gap-2 text-sm/normal py-3.5"
+            initial={{ x: 60, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            transition={{ duration: 1.25 }}
+          >
+            <span className="text-[#39a9e8] font-black">8:00</span>
+            <span className="font-quicksand font-black  text-[rgba(16,58,82,.72)]">
+              Check-in
+            </span>
+          </motion.div>
+          <motion.div
+            className="flex items-center gap-2 text-sm/normal py-3.5"
+            initial={{ x: -60, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            transition={{ duration: 1.25 }}
+          >
+            <span className="text-[#39a9e8] font-black">8:00</span>
+            <span className="font-quicksand font-black  text-[rgba(16,58,82,.72)]">
+              Check-in
+            </span>
+          </motion.div>
+        </div>
+      </div>
+      {/* Section 5 */}
+      <div
+        className={`flex flex-col justify-center items-center gap-5 w-full py-14 px-5 bg-[#E2F3FC]  `}
+      >
+        <motion.div
+          className="py-2 pr-3.5 pl-4.5 text-[11px] flex justify-center items-center border border-[#39a9e8] border-dashed rounded-4xl"
+          initial={{ y: -60, opacity: 0 }}
+          whileInView={{ y: 0, opacity: 1 }}
+          transition={{ duration: 1.25 }}
+        >
+          <span className="inline-flex w-1.75 h-1.75 rounded-[50%] bg-[radial-gradient(circle_at_30%_30%,#fff,#39a9e8_60%,color-mix(in_srgb,#39a9e8,#021b2c_62%))] mr-2"></span>
+          <span className="text-[color(srgb_0.0898039_0.31749_0.452706)] font-quicksand tracking-[.16em] font-bold">
+            ĐIỂM ĐẾN
+          </span>
+        </motion.div>
+        <motion.div
+          className="relative border border-dashed border-[#39a9e8] bg-white py-7.5 px-6.5 min-h-75 min-w-130"
+          initial={{ scale: 0.85, opacity: 0 }}
+          whileInView={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 1.25 }}
+        >
+          <FreeMapCard placeName="Đại học Cần Thơ" />
+        </motion.div>
+      </div>
+      {/* Section 6 */}
+      <div
+        className={`flex flex-col justify-center items-center gap-5 w-full py-14 px-5 bg-[#E2F3FC]  `}
+      >
+        <motion.div
+          className="py-2 pr-3.5 pl-4.5 text-[11px] flex justify-center items-center border border-[#39a9e8] border-dashed rounded-4xl"
+          initial={{ y: -60, opacity: 0 }}
+          whileInView={{ y: 0, opacity: 1 }}
+          transition={{ duration: 1.25 }}
+        >
+          <span className="inline-flex w-1.75 h-1.75 rounded-[50%] bg-[radial-gradient(circle_at_30%_30%,#fff,#39a9e8_60%,color-mix(in_srgb,#39a9e8,#021b2c_62%))] mr-2"></span>
+          <span className="text-[color(srgb_0.0898039_0.31749_0.452706)] font-quicksand tracking-[.16em] font-bold">
+            SỔ LƯU BÚT
+          </span>
+        </motion.div>
+        <motion.div
+          className="relative border border-[#39a9e8] bg-white py-7.5 px-6.5 rounded-[10px] min-w-120"
+          initial={{ y: 30, opacity: 0 }}
+          whileInView={{ y: 0, opacity: 1 }}
+          transition={{ duration: 1.25 }}
+        >
+          <span className="absolute -top-4 w-7.5 h-10 left-[50%] translate-x-[-50%] border-4 border-b-0 rounded-[50%_50%_0_0/60%_60%_0_0] border-[#2a9fd680]"></span>
+          <div className="flex items-center justify-start gap-3 mb-3.5">
+            <div className="border border-[rgba(42,159,214,0.2)] rounded-[10px] bg-[rgba(42,159,214,0.08)] w-9.5 h-9.5 flex items-center justify-center">
+              <Notebook className="text-[#39a9e8]" strokeWidth={0.5} />
+            </div>
+            <span className="text-[#39a9e8] font-black font-baloo text-[24px]">
+              Gửi Lời Chúc
+            </span>
+          </div>
+          <div className="flex flex-col gap-2.5 ">
+            <InputGroup className="border border-[#8bdcff]/38">
+              <InputGroupInput
+                type="text"
+                value={note.name}
+                className="placeholder:text-[#8bdcff]/60 text-[#39a9e8]"
+                placeholder="Tên của bạn"
+                onChange={(e) => setNote({ ...note, name: e.target.value })}
+              />
+              <InputGroupAddon className="text-[#8bdcff]" aria-hidden="true">
+                <Users loop loopDelay={1000} animate />
+              </InputGroupAddon>
+            </InputGroup>
+            <Textarea
+              className="border border-[#8bdcff]/38 text-[#39a9e8] focus-visible:ring-[#8bdcff]/30 h-30"
+              placeholder=""
+            />
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Final Section */}
+      <div className="w-full flex flex-col items-center justify-center gap-5 py-12 bg-[linear-gradient(180deg,#eaf6ff,#cfeaff_52%,#9fd4f5)]">
+        <motion.figure
+          className="rounded-full bg-white w-49 h-49"
+          initial={{ opacity: 0, scale: 1.1 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          animate={{
+            y: [-10, 10, -10], // Di chuyển lên -10px, xuống 10px, rồi quay về -10px
+          }}
+          transition={{
+            opacity: { duration: 0.8, ease: "easeOut" },
+            scale: { duration: 0.8, ease: "easeOut" },
+            y: {
+              duration: 4, // Thời gian cho 1 chu kỳ lên xuống
+              repeat: Infinity, // Lặp lại vô hạn
+              ease: "easeInOut", // Chuyển động mượt mà
+            },
+          }}
+        >
+          <img
+            src={NgocPhung2Webp}
+            alt="Ngọc Phụng trong ảnh tốt nghiệp"
+            width={200}
+            height={200}
+            className="object-cover object-[0%_5%] w-full h-full rounded-full border-[6px] border-white"
+          />
+        </motion.figure>
+        <span className="text-[17px]/[1.95] font-medium text-[color-mix(in_srgb,#39a9e8,#021b2c_62%)]">
+          Cảm ơn bạn đã luôn đồng hành và chia sẻ niềm vui này.
+        </span>
+        <span className="text-[28px] font-bold font-charm text-[#39a9e8]">
+          - Ngọc Phụng
+        </span>
       </div>
     </>
   );
