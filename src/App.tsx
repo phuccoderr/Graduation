@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import BorderBackground from "./components/border-background";
 import FooterYear from "./components/footer-year";
 import TextType from "./components/TextType";
@@ -20,11 +20,75 @@ import { PartyPopper } from "./components/animate-ui/icons/party-popper";
 import { StarsBackground } from "./components/animate-ui/components/backgrounds/stars";
 import FadeContent from "./components/FadeContent";
 import Scroll from "./components/scroll";
+import { Toaster } from "./components/ui/sonner";
+import { toast } from "sonner";
+import music from "./assets/music-main.mp3";
+import { CirclePlay } from "lucide-react";
+import wibu from "./assets/wibu.gif";
+import { motion } from "motion/react";
 
 function App() {
   const [open, setOpen] = useState(true);
   const [name, setName] = useState("");
   const [openLetter, setOpenLetter] = useState(false);
+
+  const handleOpenLetter = () => {
+    if (name.trim() === "") {
+      toast.info("Vui lòng nhập tên của bạn trước khi mở thiệp 🥰.", {
+        style: {
+          backgroundColor: "#e0f2fe", // Màu nền xanh trời nhạt (sky-100)
+          color: "#0369a1", // Màu chữ xanh trời đậm (sky-700)
+          border: "1px solid #7dd3fc", // Viền xanh trời (sky-300)
+        },
+      });
+      setOpen(true);
+      return;
+    }
+    setOpenLetter(true);
+    toggleMusic();
+  };
+
+  // Music
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  // Quy đổi thời gian sang giây:
+  // 2 phút 4 giây = (2 * 60) + 4 = 124 giây
+  // 3 phút 36 giây = (3 * 60) + 36 = 216 giây
+  const START_TIME = 124;
+  const END_TIME = 216;
+
+  const handleTimeUpdate = () => {
+    if (!audioRef.current) return;
+    // Nếu chạy quá thời điểm kết thúc, tự động tua ngược lại điểm bắt đầu để lặp lại
+    if (audioRef.current.currentTime >= END_TIME) {
+      audioRef.current.currentTime = START_TIME;
+      audioRef.current.play();
+    }
+  };
+  const toggleMusic = () => {
+    if (!audioRef.current) return;
+
+    if (isPlaying) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+    } else {
+      // Nếu vị trí hiện tại chưa nằm trong đoạn cần phát, đưa về điểm bắt đầu
+      if (
+        audioRef.current.currentTime < START_TIME ||
+        audioRef.current.currentTime >= END_TIME
+      ) {
+        audioRef.current.currentTime = START_TIME;
+      }
+      audioRef.current
+        .play()
+        .then(() => {
+          setIsPlaying(true);
+        })
+        .catch((error) => {
+          console.error("Lỗi phát nhạc:", error);
+        });
+    }
+  };
 
   // const bg_green = useRef(
   //   "bg-[image:linear-gradient(180deg,#22473E_0%,#1E3E36_18%,#13312D_32%,#13312D_100%)]",
@@ -95,9 +159,10 @@ function App() {
               </div>
               <p className="w-[80%] h-[0.5px] bg-[#8bdcff]/38 mx-auto"></p>
               <Button
+                type="button"
                 size="lg"
                 className="px-24 py-6 bg-(image:--gradient-cyan-orange) text-[#0c3450] rounded-full cursor-pointer z-10"
-                onClick={() => setOpenLetter(true)}
+                onClick={() => handleOpenLetter()}
               >
                 Chạm để mở thiệp
               </Button>
@@ -159,10 +224,43 @@ function App() {
             initialOpacity={0}
             className={`w-full h-full flex flex-col items-center overflow-auto`}
           >
-            <Scroll />
+            <Scroll name={name} />
           </FadeContent>
         )}
+        <audio
+          ref={audioRef}
+          src={music}
+          loop
+          onTimeUpdate={handleTimeUpdate}
+        />
+        {openLetter && (
+          <motion.div
+            initial={{ x: 60 }}
+            animate={{ x: 0 }}
+            transition={{ duration: 1.25, ease: "easeOut" }}
+            className="fixed bottom-6 right-6" // ← đưa fixed ra đây
+          >
+            <Button
+              onClick={toggleMusic}
+              className="w-12 h-12 bg-white border border-[#39a9e8] text-[#39a9e8] rounded-full hover:bg-white overflow-hidden"
+            >
+              {isPlaying ? (
+                /* Icon Tạm dừng (Pause) */
+                <img
+                  src={wibu}
+                  alt="Playing GIF"
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                /* Icon Phát nhạc (Play) */
+                <CirclePlay strokeWidth={1.5} />
+              )}
+            </Button>
+          </motion.div>
+        )}
       </StarsBackground>
+
+      <Toaster position="top-center" />
     </>
   );
 }

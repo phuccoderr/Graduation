@@ -11,6 +11,7 @@ import FreeMapCard from "./map";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "./ui/input-group";
 import { Users } from "./animate-ui/icons/users";
 import { Textarea } from "./ui/textarea";
+import { Button } from "./ui/button";
 
 function TextDrop({ text }: { text: string }) {
   const words = text.split(" ");
@@ -172,8 +173,10 @@ const CalendarNovember2026 = () => {
     </motion.div>
   );
 };
-
-const Scroll = () => {
+type Props = {
+  name: string;
+};
+const Scroll = ({ name }: Props) => {
   const [note, setNote] = useState({
     name: "",
     message: "",
@@ -245,9 +248,7 @@ const Scroll = () => {
         >
           <span className="inline-flex w-1.75 h-1.75 rounded-[50%] bg-[radial-gradient(circle_at_30%_30%,#fff,#39a9e8_60%,color-mix(in_srgb,#39a9e8,#021b2c_62%))]"></span>
           <span className="text-[13px] text-[#0c3450]">Thân mời</span>
-          <span className="text-[13px] text-[#39a9e8] font-bold">
-            Hoàng Phúc
-          </span>
+          <span className="text-[13px] text-[#39a9e8] font-bold">{name}</span>
         </motion.div>
         <motion.span
           className="uppercase text-xs font-bold font-quicksand tracking-[.16em] text-[color(srgb_0.0898039_0.31749_0.452706)]"
@@ -386,7 +387,7 @@ const Scroll = () => {
       </div>
 
       {/* Section 4 */}
-      <div
+      {/* <div
         className={` flex flex-col justify-center items-center gap-5 w-full py-14 px-5 bg-gradient-to-b from-white to-[rgb(234,248,255)]`}
       >
         <motion.div
@@ -456,7 +457,7 @@ const Scroll = () => {
             </span>
           </motion.div>
         </div>
-      </div>
+      </div> */}
       {/* Section 5 */}
       <div
         className={`flex flex-col justify-center items-center gap-5 w-full py-14 px-5 bg-[#E2F3FC]  `}
@@ -528,6 +529,9 @@ const Scroll = () => {
               className="border border-[#8bdcff]/38 text-[#39a9e8] focus-visible:ring-[#8bdcff]/30 h-30"
               placeholder=""
             />
+            <Button className="bg-[linear-gradient(135deg,#39a9e8,color-mix(in_srgb,#39a9e8,#021b2c_62%))] rounded-sm text-[13px] font-black">
+              Gửi lời chúc
+            </Button>
           </div>
         </motion.div>
       </div>
@@ -559,7 +563,7 @@ const Scroll = () => {
             className="object-cover object-[0%_5%] w-full h-full rounded-full border-[6px] border-white"
           />
         </motion.figure>
-        <span className="text-[17px]/[1.95] font-medium text-[color-mix(in_srgb,#39a9e8,#021b2c_62%)]">
+        <span className="text-[17px]/[1.95] font-medium text-[color-mix(in_srgb,#39a9e8,#021b2c_62%)] text-center">
           Cảm ơn bạn đã luôn đồng hành và chia sẻ niềm vui này.
         </span>
         <span className="text-[28px] font-bold font-charm text-[#39a9e8]">
