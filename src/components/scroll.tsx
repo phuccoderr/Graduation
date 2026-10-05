@@ -336,9 +336,9 @@ const Scroll = ({ name }: Props) => {
             <span className="font-quicksand font-bold tracking-[.14em] text-[11px] text-[color(srgb_0.0898039_0.31749_0.452706)]">
               KHỞI HÀNH LÚC
             </span>
-            <span className="text-[42px] text-[#39a9e8] font-bold">08:30</span>
+            <span className="text-[42px] text-[#39a9e8] font-bold">14:00</span>
             <span className="text-[13px] text-[color(srgb_0.0898039_0.31749_0.452706)]">
-              ngày 25 tháng 5 năm 2026
+              ngày 06 tháng 11 năm 2026
             </span>
             <div className="flex items-center gap-1 font-quicksand text-[11px] text-[#39a9e8]">
               <span>BẠN</span>
