@@ -26,8 +26,10 @@ import music from "./assets/music-main.mp3";
 import { CirclePlay } from "lucide-react";
 import wibu from "./assets/wibu.gif";
 import { motion } from "motion/react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import WishListExport from "./components/wish-list-export";
 
-function App() {
+function InvitationApp() {
   const [open, setOpen] = useState(true);
   const [name, setName] = useState("");
   const [openLetter, setOpenLetter] = useState(false);
@@ -262,6 +264,17 @@ function App() {
 
       <Toaster position="top-center" />
     </>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/list" element={<WishListExport />} />
+        <Route path="/*" element={<InvitationApp />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
