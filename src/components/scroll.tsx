@@ -12,6 +12,18 @@ import { InputGroup, InputGroupAddon, InputGroupInput } from "./ui/input-group";
 import { Users } from "./animate-ui/icons/users";
 import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
+import { createWishes } from "@/apis/wishes.api";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "./animate-ui/components/radix/alert-dialog";
 
 function TextDrop({ text }: { text: string }) {
   const words = text.split(" ");
@@ -181,6 +193,26 @@ const Scroll = ({ name }: Props) => {
     name: "",
     message: "",
   });
+
+  const [loading, setLoading] = useState(false);
+
+  const handleCreateWish = async () => {
+    setLoading(true);
+    try {
+      await createWishes({
+        name: note.name,
+        note: note.message,
+        created_at: new Date().toISOString(),
+      });
+      setNote({ name: "", message: "" });
+      alert("Tạo lời chúc thành công!");
+    } catch (error) {
+      alert("Có lỗi xảy ra, vui lòng thử lại.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const playerRef = useRef<Player>(null);
   useEffect(() => {
     playerRef.current?.playFromBeginning();
@@ -336,7 +368,7 @@ const Scroll = ({ name }: Props) => {
             <span className="font-quicksand font-bold tracking-[.14em] text-[11px] text-[color(srgb_0.0898039_0.31749_0.452706)]">
               KHỞI HÀNH LÚC
             </span>
-            <span className="text-[42px] text-[#39a9e8] font-bold">14:00</span>
+            <span className="text-[42px] text-[#39a9e8] font-bold">16:30</span>
             <span className="text-[13px] text-[color(srgb_0.0898039_0.31749_0.452706)]">
               ngày 06 tháng 11 năm 2026
             </span>
@@ -363,7 +395,7 @@ const Scroll = ({ name }: Props) => {
           Cùng đếm ngược đến giờ cất cánh
         </motion.span>
         <Countdown
-          targetDate="2026-11-06T14:00:00" // ← Đây là giờ Việt Nam
+          targetDate="2026-11-06T16:30:00" // ← Đây là giờ Việt Nam
           onComplete={() => alert("Chúc mừng năm mới!")}
         />
         <CalendarNovember2026 />
@@ -519,19 +551,52 @@ const Scroll = ({ name }: Props) => {
                 value={note.name}
                 className="placeholder:text-[#8bdcff]/60 text-[#39a9e8]"
                 placeholder="Tên của bạn"
-                onChange={(e) => setNote({ ...note, name: e.target.value })}
+                onChange={(e) =>
+                  setNote((prev) => ({ ...prev, name: e.target.value }))
+                }
               />
               <InputGroupAddon className="text-[#8bdcff]" aria-hidden="true">
                 <Users loop loopDelay={1000} animate />
               </InputGroupAddon>
             </InputGroup>
             <Textarea
-              className="border border-[#8bdcff]/38 text-[#39a9e8] focus-visible:ring-[#8bdcff]/30 h-30"
-              placeholder=""
+              className="border border-[#8bdcff]/38 text-[#39a9e8] placeholder:text-[#8bdcff]/60 focus-visible:ring-[#8bdcff]/30 h-30"
+              placeholder="Nhập lời chúc ý nghĩa của bạn..."
+              value={note.message}
+              onChange={(e) =>
+                setNote((prev) => ({ ...prev, message: e.target.value }))
+              }
             />
-            <Button className="bg-[linear-gradient(135deg,#39a9e8,color-mix(in_srgb,#39a9e8,#021b2c_62%))] rounded-sm text-[13px] font-black">
-              Gửi lời chúc
-            </Button>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button
+                  disabled={!note.name.trim() || !note.message.trim()}
+                  className="bg-[linear-gradient(135deg,#39a9e8,color-mix(in_srgb,#39a9e8,#021b2c_62%))] rounded-sm text-[13px] font-black disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Gửi lời chúc
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle className="font-baloo">
+                    Gửi lời chúc tốt nghiệp 🎓
+                  </AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Lời chúc ý nghĩa của bạn dành cho tân cử nhân
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Hủy</AlertDialogCancel>
+                  <AlertDialogAction
+                    disabled={loading}
+                    onClick={handleCreateWish}
+                    className="bg-[linear-gradient(135deg,#39a9e8,color-mix(in_srgb,#39a9e8,#021b2c_62%))]"
+                  >
+                    Gửi lời chúc ✨
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </div>
         </motion.div>
       </div>
