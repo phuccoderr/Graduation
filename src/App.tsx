@@ -139,14 +139,12 @@ function InvitationApp() {
                   ĐẠI HỌC CẦN THƠ
                 </p>
                 <p className="text-sm text-[rgb(240_250_255/_0.66)]">
-                  T6 · 06.11.2026 · 14:00
+                  T6 · 06.11.2026 · 16:30
                 </p>
               </div>
               <p className="w-[80%] h-[0.5px] bg-[#8bdcff]/38 mx-auto"></p>
               <div className="flex flex-col gap-2 items-center">
-                <p className="text-[rgb(240_250_255/_0.66)]">
-                  Trân trọng kính mời
-                </p>
+                <p className="text-[rgb(240_250_255/_0.66)]">Thân mời</p>
                 <TextType
                   className="text-xl text-[#8bdcff] font-bold"
                   text={[name]}
